@@ -21,7 +21,8 @@ class MyAgent(SparkAgent):
     def think(self, perception):
         action = super(MyAgent, self).think(perception)
         # YOUR CODE HERE
-
+        print 'HeadYaw angle: ' + str(angle) + ' temperature: ' + str(temperature)
+        return super(MyAgent, self).think(perception)
         return action
 
 if '__main__' == __name__:
