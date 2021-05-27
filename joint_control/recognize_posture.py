@@ -31,6 +31,14 @@ class PostureRecognitionAgent(AngleInterpolationAgent):
     def recognize_posture(self, perception):
         posture = 'unknown'
         # YOUR CODE HERE
+        data = []
+        joints = ['LHipYawPitch', 'LHipRoll', 'LHipPitch', 'LKneePitch', 'RHipYawPitch', 'RHipRoll', 'RHipPitch', 'RKneePitch']
+        for jn in joints:
+            data.append(perception.joint[jn])
+        data.append(perception.imu[0])
+        data.append(perception.imu[1])
+        pred = self.posture_classifier.predict(np.array(data).reshape(1, -1))
+        posture = listdir('robot_pose_data')[pred[0]]
 
         return posture
 
