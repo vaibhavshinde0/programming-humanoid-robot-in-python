@@ -37,7 +37,36 @@ class ForwardKinematicsAgent(AngleInterpolationAgent):
         # chains defines the name of chain and joints of the chain
         self.chains = {'Head': ['HeadYaw', 'HeadPitch']
                        # YOUR CODE HERE
+                       'LArm': ['LShoulderPitch', 'LShoulderRoll', 'LElbowYaw', 'LElbowRoll'],
+                       'RArm': ['RShoulderPitch', 'RShoulderRoll', 'RElbowYaw', 'RElbowRoll'],
+                       'LLeg': ['LHipYawPitch', 'LHipRoll', 'LHipPitch', 'LKneePitch', 'LAnklePitch', 'LAnkleRoll'],
+                       'RLeg': ['RHipYawPitch', 'RHipRoll', 'RHipPitch', 'RKneePitch', 'RAnklePitch', 'RAnkleRoll']
                        }
+         self.jointoffs = {'HeadYaw': [0,0,126.5],
+                        'HeadPitch': [0,0,0],
+                        'LShoulderPitch': [0, 98, 100],
+                        'LShoulderRoll': [0, 0, 0],
+                        'LElbowYaw': [105, 15, 0],
+                        'LElbowRoll': [0,0,0],
+                        'LWristYaw': [55.95,0,0],
+                        'RShoulderPitch': [0, -98, 100],
+                        'RShoulderRoll': [0,0,0],
+                        'RElbowYaw': [105,-15,0],
+                        'RElbowRoll': [0,0,0],
+                        'RWristYaw': [55.95,0,0],
+                        'LHipYawPitch': [0, 50, -85],
+                        'LHipRoll': [0,0,0],
+                        'LHipPitch': [0,0,0],
+                        'LKneePitch': [0,0,-100],
+                        'LAnkleRoll': [0,0,0],
+                        'LAnklePitch': [0,0,-102.9],
+                        'RHipYawPitch': [0, -50, -85],
+                        'RHipRoll': [0,0,0],
+                        'RHipPitch': [0,0,0],
+                        'RKneePitch': [0,0,-100],
+                        'RAnkleRoll': [0,0,0],
+                        'RAnklePitch': [0,0,-102.9]
+                        }
 
     def think(self, perception):
         self.forward_kinematics(perception.joint)
