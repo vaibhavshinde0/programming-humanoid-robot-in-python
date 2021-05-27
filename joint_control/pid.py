@@ -62,7 +62,7 @@ class PIDController(object):
 
         self.e2 = self.e1
         self.e1 = e
-        # print("PID joint errors: e=" + str(e) + " ; e1= " + str(self.e1) + " ; e2= " + str(self.e2))
+        
         speed = ((self.u - sensor) + (y - sensor)) / (2*self.dt) 
         predict = self.u + speed*self.dt
         self.y.append(predict)
