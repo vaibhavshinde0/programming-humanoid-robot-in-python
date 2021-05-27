@@ -53,6 +53,29 @@ class ForwardKinematicsAgent(AngleInterpolationAgent):
         '''
         T = identity(4)
         # YOUR CODE HERE
+        s = math.sin(joint_angle)
+        c = math.cos(joint_angle)
+        xo, yo, zo = self.jointoffs[joint_name]
+        #x
+        if(joint_name.find('Roll')>0):
+            T=matrix([  [1, 0,  0, xo],
+                        [0, c  , -s  , yo],
+                        [0, s  ,  c  , zo],
+                        [0, 0, 0, 1]])
+        #y
+        elif(joint_name.find('Pitch')>0):
+            T=matrix([  [ c  , 0, s  , xo],
+                        [ 0, 1, 0, yo],
+                        [-s  , 0, c  , zo],
+                        [ 0, 0, 0, 1]])
+        #z
+        elif(joint_name.find('Yaw')>0):
+            T=matrix([  [  c , -s , 0, xo],
+                        [  s ,  c , 0, yo],
+                        [ 0, 0, 1, zo],
+                        [ 0, 0, 0, 1]])
+        else:
+            print("Invalid joint_name")
 
         return T
 
@@ -67,6 +90,7 @@ class ForwardKinematicsAgent(AngleInterpolationAgent):
                 angle = joints[joint]
                 Tl = self.local_trans(joint, angle)
                 # YOUR CODE HERE
+                T = np.dot(T, Tl)
 
                 self.transforms[joint] = T
 
