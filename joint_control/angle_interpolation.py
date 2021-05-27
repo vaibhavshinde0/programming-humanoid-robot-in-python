@@ -41,6 +41,36 @@ class AngleInterpolationAgent(PIDAgent):
     def angle_interpolation(self, keyframes, perception):
         target_joints = {}
         # YOUR CODE HERE
+        
+        if self.st == -1:
+            self.st = perception.time
+
+        # current time
+        ct = perception.time - self.st
+
+        names, times, keys = keyframes
+
+        for i,n in enumerate(names):
+            if n in self.joint_names:
+                t = times[i]
+                k = keys[i]
+
+                for j in range(len(t) - 1):
+                    if t[j] < ct < t[j+1]:
+                        k1 = k[j][0]
+                        kp1 = k1 + (k[j][2][1] * k[j][2][2])
+                        k2 = k[j + 1][0]
+                        kp2 = k2 + (k[j+1][1][1] * k[j+1][1][2])
+                        tn = (ct - t[j]) / (t[j+1] - t[j]) 
+                    elif ct < t[0]:
+                        k1 = perception.joint[n]
+                        kp1 = k1
+                        k2 = k [0][0]
+                        kp2 = k2 + (k[j][2][1] * k[j][2][2])
+                        tn = (ct - 0.0) / (t[1] - 0.0) 
+                        continue
+                    
+                    target_joints[n] = (1 - tn) ** 3 * k1 + 3 * (1 - tn) ** 2 * tn * kp1 + 3 * (1 - tn) * tn ** 2 * kp2 + tn ** 3 * k2
 
         return target_joints
 
